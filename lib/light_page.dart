@@ -55,12 +55,12 @@ class _SwitchPageState extends State<SwitchPage> {
 
   // Obsługa wiadomości MQTT
   void _handleMqttMessage(int lightIndex, String payload) {
+    print('Otrzymano wiadomość dla ${lightNames[lightIndex]}: $payload'); // Wydrukuj przychodzącą wiadomość
     bool isOn = payload.contains('"state":"ON"') || payload.contains('"state_l2":"ON"');
-
-    setState(() {
-      lightStates[lightIndex] = isOn;
-    });
+    lightStates[lightIndex] = isOn;
+    setState(() {});
   }
+
 
   // Wysyłanie wiadomości do MQTT
   void toggleLight(int lightIndex) {
@@ -69,7 +69,7 @@ class _SwitchPageState extends State<SwitchPage> {
         mqttService.client!.connectionStatus!.state == MqttConnectionState.connected) {
       bool newState = !lightStates[lightIndex];
       bool isSecondState = lightIndex == 3;
-
+      lightStates[lightIndex] = newState;
       if (!isSecondState) {
         mqttService.publishMessage('zigbee2mqtt/${lightNames[lightIndex]}/set',
             '{"state": "${newState ? "ON" : "OFF"}"}');
@@ -77,6 +77,7 @@ class _SwitchPageState extends State<SwitchPage> {
         mqttService.publishMessage('zigbee2mqtt/${lightNames[lightIndex]}/set',
             '{"state_l2": "${newState ? "ON" : "OFF"}"}');
       }
+      setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Brak połączenia z MQTT!")),
