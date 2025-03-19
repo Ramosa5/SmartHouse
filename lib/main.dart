@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'temperature.dart';
 import 'light_page.dart';
 
 void main() {
@@ -33,9 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+    TemperaturePage(),
+    SwitchPage(),
     Center(child: Text('Strona 2: Ustawienia')),
-    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -49,22 +49,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Flutter Demo Home Page'),
+        title: const Text('Kołodzieja 42/9'),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Strona główna',
+            icon: Icon(Icons.thermostat),
+            label: 'Temperatura',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.lightbulb),
+            label: 'Światło',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Ustawienia',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
           ),
         ],
         currentIndex: _selectedIndex,
